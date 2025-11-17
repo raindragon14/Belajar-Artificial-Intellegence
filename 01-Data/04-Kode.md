@@ -18,9 +18,9 @@ df['col_mar'] = imputer.fit_transform(df[['col_mar']])
 
 # Kasus MNAR: Flagging + Imputasi
 df['col_mnar_is_missing'] = df['col_mnar'].isnull().astype(int)
-df['col_mnar'] = df['col_mnar'].fillna(0) # Atau nilai di luar range
+df['col_mnar'] = df['col_mnar'].fillna(0) # Atau nilai di luar range'''
 
-## IQR Method (Deteksi Outlier)
+## 2. IQR Method (Deteksi Outlier)
 
 '''python
 Q1 = df['salary'].quantile(0.25)
@@ -34,9 +34,9 @@ upper_bound = Q3 + 1.5 * IQR
 df_clean = df[
     (df['salary'] >= lower_bound) &
     (df['salary'] <= upper_bound)
-]
+] '''
 
-## Feature Scaling
+## 3. Feature Scaling
 
 '''python
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
@@ -47,9 +47,9 @@ df['age_norm'] = scaler_minmax.fit_transform(df[['age']])
 
 # B. Standard Scaling (Z-Score) - Bagus untuk Regresi/SVM
 scaler_std = StandardScaler()
-df['age_std'] = scaler_std.fit_transform(df[['age']])
+df['age_std'] = scaler_std.fit_transform(df[['age']])'''
 
-## Encoding
+## 4. Encoding
 
 '''python
 # One-Hot Encoding (Untuk kategori sedikit)
@@ -57,4 +57,4 @@ df = pd.get_dummies(df, columns=['gender', 'color'], drop_first=True)
 
 # Frequency Encoding (Untuk kategori banyak)
 freq = df['city'].value_counts() / len(df)
-df['city_encoded'] = df['city'].map(freq)
+df['city_encoded'] = df['city'].map(freq)'''
