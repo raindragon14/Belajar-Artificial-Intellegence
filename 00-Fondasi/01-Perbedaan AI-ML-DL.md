@@ -21,7 +21,3 @@ Bagian dari ML yang terinspirasi oleh struktur otak manusia (*Neural Networks*).
 Evolusi terbaru dari DL. Tidak hanya mengklasifikasikan data (misal: ini kucing/anjing), tapi **menciptakan data baru** yang mirip dengan data latihan.
 * **Contoh:** ChatGPT, Midjourney.
 * *Key Concept:* "Creating New Content".
-
----
-**Visualisasi:**
-[AI [ Machine Learning [ Deep Learning [ Generative AI ] ] ] ]
