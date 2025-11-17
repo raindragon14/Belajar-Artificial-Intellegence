@@ -1,0 +1,46 @@
+# Meeting 02
+
+> **Objective:** Memahami bahwa "membersihkan data" bukan sekadar menghapus baris, tapi sebuah keputusan statistik yang mempengaruhi bias model.
+
+## I. Hierarki Nilai yang Hilang 🕳️
+
+Jangan asal `dropna()` atau `fillna(mean)`. Identifikasi tipe "bolong"-nya dulu:
+
+### 1. MCAR (Missing Completely At Random)
+Hilang tanpa sebab (acak).
+* *Contoh:* Tinta tumpah di kertas survei.
+* *Handling:* Aman untuk di-drop atau diimputasi sederhana.
+
+### 2. MAR (Missing At Random)
+Hilangnya data B berhubungan dengan data A yang ada.
+* *Contoh:* Wanita (Gender) cenderung tidak mengisi Berat Badan.
+* *Handling:* **Conditional Imputation**. Isi berat badan kosong dengan "Rata-rata berat badan WANITA saja", bukan rata-rata populasi total.
+
+### 3. MNAR (Missing Not At Random) - ⚠️ DANGER
+Hilang karena nilai data itu sendiri.
+* *Contoh:* Orang obesitas malu mengisi berat badan.
+* *Handling:* Jangan diisi rata-rata! Buat kolom baru `Weight_Missing_Flag` (1/0) agar model belajar bahwa "Data Kosong" ini memiliki arti khusus.
+
+## II. Deteksi Outlier(Anomali) 📈
+
+### Method A: Z-Score (Untuk Data Normal)
+Mendeteksi seberapa jauh data dari rata-rata dalam satuan Standar Deviasi ($\sigma$).
+$$Z = \frac{x - \mu}{\sigma}$$
+* **Threshold:** Jika $|Z| > 3$, anggap outlier.
+
+### Method B: IQR Method (Untuk Data Skewed - Lebih Kuat)
+Menggunakan Interquartile Range (jarak antara persentil 25% dan 75%).
+* $IQR = Q3 - Q1$
+* $Lower Limit = Q1 - 1.5 \times IQR$
+* $Upper Limit = Q3 + 1.5 \times IQR$
+* Data di luar limit ini adalah outlier.
+
+---
+
+### 📝 Assignment 2
+**Dataset:** Data Penumpang Titanic.
+**Masalah:** Kolom `Age` (Umur) hilang 20% datanya.
+**Tugas:**
+Rancang strategi imputasi yang lebih cerdas daripada sekadar "Isi dengan Rata-rata Umur (29 tahun)".
+* *Hint:* Apakah umur orang kaya (Kelas 1) sama dengan kru kapal? Apakah umur yang punya gelar "Master" (anak laki-laki) sama dengan "Mr."?
+* *Solusi yang diharapkan:* GroupBy Title (Mr, Mrs, Miss, Master) -> Lalu ambil Median Umur per grup tersebut.
